@@ -45,14 +45,32 @@ public class CategoryService {
     }
 
      // update
-    public CategoryDto updateCategory(Long categoryId , CategoryDto dto){
+//    public CategoryDto updateCategory(Long categoryId , CategoryDto dto){
+//        ProfileEntity profile = profileService.getCurrentProfile();
+//        CategoryEntity existingCategory = categoryRepository.findByIdAndProfileId(categoryId, profile.getId())
+//                .orElseThrow(()-> new RuntimeException("Category not found "));
+//
+//        existingCategory.setName(dto.getName());
+//        existingCategory.setIcon(dto.getIcon());
+//        return toDto(existingCategory);
+//    }
+
+    public CategoryDto updateCategory(Long categoryId, CategoryDto dto) {
+
         ProfileEntity profile = profileService.getCurrentProfile();
-        CategoryEntity existingCategory = categoryRepository.findByIdAndProfileId(categoryId, profile.getId())
-                .orElseThrow(()-> new RuntimeException("Category not found "));
+
+        CategoryEntity existingCategory =
+                categoryRepository.findByIdAndProfileId(categoryId, profile.getId())
+                        .orElseThrow(() -> new RuntimeException("Category not found"));
 
         existingCategory.setName(dto.getName());
         existingCategory.setIcon(dto.getIcon());
-        return toDto(existingCategory);
+        existingCategory.setType(dto.getType());
+
+        CategoryEntity updatedCategory =
+                categoryRepository.save(existingCategory);
+
+        return toDto(updatedCategory);
     }
 
     private CategoryEntity toEntity(CategoryDto categoryDto, ProfileEntity profile){
