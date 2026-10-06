@@ -37,7 +37,7 @@ public class ProfileController {
         try {
             if (!profileService.isAccountActive(authDto.getEmail())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
-                        "message","Account is not active . please active your first."
+                        "message","Account is not active.Please check your email and activate your account first."
                 ));
             }
             Map<String , Object> response = profileService.authenticateAndGenerate(authDto);
